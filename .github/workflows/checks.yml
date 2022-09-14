@@ -13,7 +13,7 @@ jobs:
         uses: docker/login-action@v1
         with: 
           username: ${{ secrets.DOCKERHUB_USER }} # docker id which added in secrets of github settings
-          password: ${{ secrets.DOCKERHUB_TOKEN }} # docker token which is created in docker and kept in secrets 
+          password: ${{ secrets.DOCKERHUB_TOKEN }} # docker token which is created in docker and kept in secrets ad
       - name: Checkout
         uses: actions/checkout@v2
       - name: Test
