@@ -1,4 +1,4 @@
-#configuratons for git hub actions 1 .linting , 2.testing 3.deployment
+#configuratons for git hub actions like login checkout linting , 2.testing 3.deployment
 
 name: Checks
 
@@ -19,4 +19,4 @@ jobs:
       - name: Test
         run: docker-compose run --rm app sh -c "python manage.py test"
       - name: Lint
-        run:docker-compose run --rm app sh -c "flake8" 
+        run: docker-compose run --rm app sh -c "flake8" 
