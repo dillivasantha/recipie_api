@@ -1,0 +1,8 @@
+# as flake 8 identifies linting errors in django default codes as well , 
+# hence excluding those files to avoid fixing them 
+[flake8]
+exclude = 
+    migrations,
+    __pychache__,
+    manage.py,
+    settings.py
