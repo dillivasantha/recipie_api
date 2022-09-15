@@ -12,3 +12,26 @@ services:
       - ./app:/app
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"  
+    environment:
+    #2#
+      - DB_HOST=db # name of server as host
+      - DB_NAME=devdb # below three should match with below db environment details 
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on: # this telss docker compose that app service is depends on db below 
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data #this path is containers 
+    environment:
+    #1# as this is dev or local machine , we are adding user and passworrd here if its prod we should not 
+    # initial database configuration - local server 
+      - POSTGRES_DB=DEVDB
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+#name of the volume , no need to add value , this automatically gets by docker 
+  dev-db-data:
