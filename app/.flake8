@@ -5,4 +5,7 @@ exclude =
     migrations,
     __pychache__,
     manage.py,
-    settings.py
+    settings.py,
+    #to skip these indentations and line empty checks we added files here 
+    wait_for_db.py,
+    test_commands.py
