@@ -18,7 +18,7 @@ services:
       - DB_NAME=devdb # below three should match with below db environment details 
       - DB_USER=devuser
       - DB_PASS=changeme
-    depends_on: # this telss docker compose that app service is depends on db below 
+    depends_on: # this tells docker compose that app service is depends on db service below 
       - db
 
   db:
@@ -34,4 +34,5 @@ services:
 
 volumes:
 #name of the volume , no need to add value , this automatically gets by docker 
+#page 44 Django for proffessionals
   dev-db-data:
