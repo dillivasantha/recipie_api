@@ -8,6 +8,8 @@ from rest_framework import status
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
 ME_URL = reverse('user:me')
+
+#helper class which will be useful below 
 def create_user(**params):
     """create and return a new user"""
     return get_user_model().objects.create_user(**params)
@@ -18,7 +20,7 @@ class PublicUserApiTests(TestCase):
     def setUp(self) -> None:
         self.client = APIClient()
 
-    def test_create_user_success(self):
+    def test_create_user_success(self): # we are not using above helper class , we are actually creatingby sending payload and post call
         """Test creating a user is successfull."""
         payload={
             'email':'test1@example.com',
@@ -40,7 +42,7 @@ class PublicUserApiTests(TestCase):
             'password':'testpass123',
             'name':'test name'
         }
-        create_user(**payload)
+        create_user(**payload) # using helper class above 
         res=self.client.post(CREATE_USER_URL,payload)
         self.assertEqual(res.status_code,status.HTTP_400_BAD_REQUEST)
 

@@ -2,7 +2,9 @@
 Test for models.
 """
 from django.test import TestCase
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model # to check user model we have this , but for other we have to import models from core
+from decimal import Decimal
+from core import models
 
 class ModelTests(TestCase):
     """Test Models."""
@@ -36,3 +38,18 @@ class ModelTests(TestCase):
         user = get_user_model().objects.create_superuser('testsuper@example.com','superpass123')
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_recipe(self):
+        """test creating a recipe successful or not """
+        user = get_user_model().objects.create_user(
+            'test123@example.com',
+            'testpass123'
+        )
+        recipe = models.Recipe.objects.create(
+            user=user,
+            title='Sample recipe name',
+            time_minutes=5,
+            price=Decimal('5.50'),
+            description='Sample recipe description'
+        )
+        self.assertEqual(str(recipe),recipe.title)
