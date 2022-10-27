@@ -1,9 +1,11 @@
 """
 Views for the recipe APIs
 """
-from rest_framework import viewsets
+from rest_framework import (
+    viewsets,
+    mixins)
 from recipe import serializers
-from core.models import Recipe
+from core.models import (Recipe,Tag)
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -16,9 +18,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     # till above it returns all recipes 
-    # but to get user specific recipes filter by user as below get_queryset() method
+    # but to get user specific recipes filter by user as below by overrididng get_queryset() method
     def get_queryset(self):
-        """ Retrieve recipe for authenticated user."""
+        """ Filter/Retrieve recipe for authenticated user."""
         return self.queryset.filter(user=self.request.user).order_by('-id')
 
     # most of times we use Detailserializer hence we implement this condition based method get_serializer_class and change above 
@@ -36,3 +38,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """ create a new recipe"""
         serializer.save(user=self.request.user)
+# just adding UpdateModelMixin here will update our tag object - test  patch
+class TagViewSet(mixins.DestroyModelMixin,
+                mixins.UpdateModelMixin,
+                mixins.ListModelMixin,
+                viewsets.GenericViewSet): # generic vide set should be last as per DJnago rules
+    """Manage tags in the database """
+    serializer_class = serializers.TagSerialzer
+    queryset = Tag.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes= [IsAuthenticated]
+
+    def get_queryset(self):
+        """filter tags based on user """
+        return self.queryset.filter(user=self.request.user).order_by('-name')
